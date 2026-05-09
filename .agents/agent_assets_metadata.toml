@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "UmBgkejdx4IsXzzkX1Mci"
+uri = "file://artifacts/mobile/assets/images/icon.png"
+type = "image"
+title = "nutrisnap app icon"

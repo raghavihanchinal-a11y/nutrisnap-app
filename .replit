@@ -1,0 +1,59 @@
+modules = ["nodejs-24"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+integrations = ["revenuecat:1.0.0"]
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000
+
+[[ports]]
+localPort = 8080
+externalPort = 8080
+
+[[ports]]
+localPort = 8081
+externalPort = 80
+
+[[ports]]
+localPort = 8082
+externalPort = 3001
+
+[[ports]]
+localPort = 8083
+externalPort = 4200
+
+[[ports]]
+localPort = 18115
+externalPort = 3000
+
+[[ports]]
+localPort = 18116
+externalPort = 3002
+
+[nix]
+channel = "stable-25_05"
+
+[userenv]
+
+[userenv.shared]
+REVENUECAT_PROJECT_ID = "proj21f03ba3"
+REVENUECAT_TEST_STORE_APP_ID = "app058681dfb6"
+EXPO_PUBLIC_REVENUECAT_TEST_API_KEY = "test_AKNprNLBVZlxRqovMgGBnVTPJKe"
+EXPO_PUBLIC_REVENUECAT_IOS_API_KEY = "appl_LTMvfswWtITqmKHLzTGFNkpKqEM"
+EXPO_PUBLIC_REVENUECAT_ANDROID_API_KEY = "goog_sFqjzZgGQohuYeTgciEGIFXYBJI"
+MSG91_SENDER_ID = "NUTSNP"
+MSG91_TEMPLATE_ID = "YOUR_DLT_TEMPLATE_ID"

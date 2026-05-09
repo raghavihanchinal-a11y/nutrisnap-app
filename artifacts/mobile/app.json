@@ -1,0 +1,81 @@
+{
+  "expo": {
+    "name": "NutriSnap",
+    "slug": "mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "mobile",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0a0a"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.nutrisnap.app",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "NutriSnap uses your camera to analyze food and calculate nutrition.",
+        "NSPhotoLibraryUsageDescription": "NutriSnap accesses your photos to analyze food images."
+      }
+    },
+    "android": {
+      "package": "com.nutrisnap.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#0a0a0a"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/images/icon.png"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://replit.com/"
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-4603657942439658~3235639248",
+          "iosAppId": "ca-app-pub-4603657942439658~3235639248"
+        }
+      ],
+      "expo-font",
+      "expo-web-browser",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "NutriSnap needs camera access to analyze your food."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "NutriSnap needs access to your photos to analyze food."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bce20927-43ec-4c42-8f9d-0baee5a8c078"
+      }
+    },
+    "owner": "sachin1643"
+  }
+}

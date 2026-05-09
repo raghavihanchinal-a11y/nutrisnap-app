@@ -9,17 +9,18 @@
     "distribution": "internal",
     "ios": { "simulator": true },
     "node": "20.18.0",
-    "pnpm": "10.26.1"
+    "pnpm": "10.26.1",
+      "android": { "image": "ubuntu-22.04-jdk-17-ndk-r27" }
   },
   "preview": {
     "distribution": "internal",
-    "android": { "buildType": "apk" },
+   "android": { "buildType": "apk", "image": "ubuntu-22.04-jdk-17-ndk-r27" },
     "ios": { "simulator": false },
     "node": "20.18.0",
     "pnpm": "10.26.1"
   },
   "production": {
-    "android": { "buildType": "app-bundle" },
+   "android": { "buildType": "app-bundle", "image": "ubuntu-22.04-jdk-17-ndk-r27" },
     "autoIncrement": true,
     "node": "20.18.0",
     "pnpm": "10.26.1"

@@ -75,6 +75,19 @@ if (adsAvailable) {
 }
 
 /**
+ * Call once at app startup to initialize the AdMob SDK.
+ * Safe to call on web or Expo Go — it no-ops in those environments.
+ */
+export function initializeMobileAds(): void {
+  if (!MobileAds || Platform.OS === "web" || isExpoGo) return;
+  try {
+    MobileAds().initialize().catch(() => {});
+  } catch {
+    // SDK not available — ignore
+  }
+}
+
+/**
  * Show a full-screen interstitial ad.
  * Resolves when the ad is closed (or immediately if unavailable/not loaded).
  * Pass `isSubscribed = true` to skip ads for premium users.

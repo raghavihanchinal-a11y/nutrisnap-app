@@ -17,6 +17,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AppProvider, useApp } from "@/context/AppContext";
 import { initializeRevenueCat, SubscriptionProvider } from "@/lib/revenuecat";
+import { initializeMobileAds } from "@/components/AdBanner";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,17 +33,21 @@ try {
   }
 }
 
+// Initialize AdMob SDK once at app start (no-ops on web / Expo Go)
+initializeMobileAds();
+
 function RootLayoutNav() {
-  const { user, onboardingComplete } = useApp();
+  const { user, onboardingComplete, isLoading } = useApp();
   const pathname = usePathname();
 
   useEffect(() => {
+    if (isLoading) return;
     if (!user) {
       if (pathname !== "/login") router.replace("/login");
     } else if (!onboardingComplete) {
       if (pathname !== "/onboarding") router.replace("/onboarding");
     }
-  }, [user, onboardingComplete, pathname]);
+  }, [user, onboardingComplete, pathname, isLoading]);
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

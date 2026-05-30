@@ -127,17 +127,31 @@ export default function SnapScreen() {
       }
 
       const domain = process.env["EXPO_PUBLIC_DOMAIN"];
-      const apiUrl = domain ? `https://${domain}/api/analyze-food` : "/api/analyze-food";
+      if (!domain) throw new Error("API domain not configured. Please contact support.");
+      const apiUrl = `https://${domain}/api/analyze-food`;
 
-      const apiResponse = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ imageBase64: base64, mimeType: "image/jpeg" }),
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 60000);
+
+      let apiResponse: Response;
+      try {
+        apiResponse = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ imageBase64: base64, mimeType: "image/jpeg" }),
+          signal: controller.signal,
+        });
+      } catch (fetchErr: any) {
+        if (fetchErr?.name === "AbortError") {
+          throw new Error("Analysis timed out. Check your internet connection and try again.");
+        }
+        throw new Error("Could not reach server. Check your internet connection.");
+      } finally {
+        clearTimeout(timeoutId);
+      }
 
       if (!apiResponse.ok) {
-        const text = await apiResponse.text();
-        throw new Error(`Server error (${apiResponse.status}). Please retry.`);
+        throw new Error(`Analysis failed (${apiResponse.status}). Please try again.`);
       }
 
       const data = (await apiResponse.json()) as NutritionData;

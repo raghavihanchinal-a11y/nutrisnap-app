@@ -64,6 +64,7 @@ interface AppContextValue {
   bmi: number | null;
   scanCount: number;
   FREE_SCAN_LIMIT: number;
+  isLoading: boolean;
   saveUser: (user: AuthUser) => Promise<void>;
   logout: () => Promise<void>;
   saveProfile: (profile: UserProfile) => Promise<void>;
@@ -139,6 +140,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [macroGoals, setMacroGoals]       = useState<MacroGoals>({ calories: 2000, protein: 150, carbs: 200, fat: 67 });
   const [onboardingComplete, setOnboarding] = useState(false);
   const [scanCount, setScanCount]         = useState(0);
+  const [isLoading, setIsLoading]         = useState(true);
 
   const bmi: number | null =
     profile?.currentWeight && profile?.height
@@ -166,6 +168,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         if (onboardingStr === "true") setOnboarding(true);
         if (scanStr)     setScanCount(parseInt(scanStr, 10) || 0);
       } catch (_) {}
+      finally { setIsLoading(false); }
     })();
   }, []);
 
@@ -265,7 +268,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   return (
     <AppContext.Provider value={{
       user, profile, todayMeals, macroGoals, onboardingComplete, bmi,
-      scanCount, FREE_SCAN_LIMIT,
+      scanCount, FREE_SCAN_LIMIT, isLoading,
       saveUser, logout, saveProfile, addMeal, removeMeal,
       getTodayConsumed, getMealsForDate, getHistorySummaries,
       incrementScanCount, canScan,
